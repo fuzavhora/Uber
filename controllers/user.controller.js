@@ -12,6 +12,11 @@ module.exports.registerUser = async (req, res, next) => {
 
   const { fullname, email, password } = req.body;
 
+  const existingUser = await userModel.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ message: "User already exists" });
+  }
+
   const hasPassword = await bcrypt.hash(password, 10);
 
   const user = userService.createUSer({
@@ -66,10 +71,6 @@ module.exports.logoutUser = async (req, res, next) => {
   const token =
     req.cookies.token ||
     (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-
-  if (!token) {
-    return res.status(400).json({ message: "No token found" });
-  }
 
   // Blacklist the token
   await BlackListTokenModel.create({ token });

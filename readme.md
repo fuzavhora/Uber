@@ -129,6 +129,7 @@ Logs out the authenticated user by clearing the token (cookie removal) and black
 
 ### Request Headers
 
+- **Cookies token** OR
 - **Authorization**: Bearer token (required)
 
 ### Responses
@@ -147,5 +148,57 @@ Logs out the authenticated user by clearing the token (cookie removal) and black
     ```json
     {
       "message": "No token found"
+    }
+    ```
+
+## Captain Registration Endpoint Documentation
+
+**Endpoint: POST captain/register**
+
+### Description
+
+Registers a new captain. On success, returns captain information and a JWT token.
+
+### Request Data
+
+- **fullname**: An object containing:
+  - **firstname**: string (required, minimum 3 characters)
+  - **lastname**: string (optional)
+- **email**: string (required, valid email)
+- **password**: string (required, minimum 6 characters)
+- **vehicle**: An object containing:
+  - **color**: string (required, minimum 3 characters)
+  - **plate**: string (required, minimum 3 characters)
+  - **capacity**: number (required, minimum 1)
+  - **vehicleType**: string (required, one of: "Car", "motorcycle", "auto")
+
+### Responses
+
+- **200 OK**
+  - Successful registration.
+  - Sample Response:
+    ```json
+    {
+      "captain": {
+        "fullname": { "firstname": "Jane", "lastname": "Doe" },
+        "email": "jane.doe@example.com",
+        "vehicle": {
+          "color": "Red",
+          "plate": "XYZ123",
+          "capacity": 4,
+          "vehicleType": "Car"
+        }
+      },
+      "token": "JWT_TOKEN"
+    }
+    ```
+- **400 Bad Request**
+  - Validation errors or if the captain already exists.
+  - Sample Response:
+    ```json
+    {
+      "errors": [
+        { "msg": "Error message", "param": "field", "location": "body" }
+      ]
     }
     ```
