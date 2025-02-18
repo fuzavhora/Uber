@@ -61,7 +61,10 @@ Logs in an existing user. On success, returns user info and a JWT token.
   - Sample Response:
     ```json
     {
-      "user": { "email": "john.doe@example.com", "fullname": { "firstname": "John", "lastname": "Doe" } },
+      "user": {
+        "email": "john.doe@example.com",
+        "fullname": { "firstname": "John", "lastname": "Doe" }
+      },
       "token": "JWT_TOKEN"
     }
     ```
