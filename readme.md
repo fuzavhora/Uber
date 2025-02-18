@@ -43,7 +43,7 @@ Registers a new user. On success, returns user info and a JWT token.
 
 ## User Login Endpoint Documentation
 
-**Endpoint: POST /login**
+**Endpoint: POST user/login**
 
 ### Description
 
@@ -84,5 +84,68 @@ Logs in an existing user. On success, returns user info and a JWT token.
     ```json
     {
       "message": "Invalid email or password"
+    }
+    ```
+
+## User Profile Endpoint Documentation
+
+**Endpoint: GET user/profile**
+
+### Description
+
+Fetches the profile of the authenticated user.
+
+### Request Headers
+
+- **Authorization**: Bearer token (required)
+
+### Responses
+
+- **200 OK**
+  - Successful profile retrieval.
+  - Sample Response:
+    ```json
+    {
+      "fullname": { "firstname": "John", "lastname": "Doe" },
+      "email": "john.doe@example.com"
+    }
+    ```
+- **401 Unauthorized**
+  - Missing or invalid token.
+  - Sample Response:
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
+
+## User Logout Endpoint Documentation
+
+**Endpoint: GET user/logout**
+
+### Description
+
+Logs out the authenticated user by clearing the token (cookie removal) and blacklisting the provided token.
+
+### Request Headers
+
+- **Authorization**: Bearer token (required)
+
+### Responses
+
+- **200 OK**
+  - Successful logout.
+  - Sample Response:
+    ```json
+    {
+      "message": "Logged out successfully"
+    }
+    ```
+- **400 Bad Request**
+  - No token found.
+  - Sample Response:
+    ```json
+    {
+      "message": "No token found"
     }
     ```
