@@ -1,5 +1,6 @@
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
+const JWT = require("jsonwebtoken");
 const userService = require("../services/user.service");
 const { validationResult } = require("express-validator");
 const BlackListTokenModel = require("../models/blacklist.model");
@@ -26,8 +27,8 @@ module.exports.registerUser = async (req, res, next) => {
     password: hasPassword,
   });
 
-  // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-  const token = user.generateAuthToken();
+  const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET);
+  // const token = user.generateAuthToken();
 
   res.status(201).json({ user: { fullname, email }, token });
 };

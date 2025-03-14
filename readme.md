@@ -202,3 +202,111 @@ Registers a new captain. On success, returns captain information and a JWT token
       ]
     }
     ```
+
+## Captain Login Endpoint Documentation
+
+**Endpoint: POST captain/login**
+
+### Description
+
+Logs in an existing captain. On success, returns captain info and a JWT token.
+
+### Request Data
+
+- **email**: string (required, valid email)
+- **password**: string (required)
+
+### Responses
+
+- **200 OK**
+  - Successful login.
+  - Sample Response:
+    ```json
+    {
+      "captain": {
+        "email": "jane.doe@example.com",
+        "fullname": { "firstname": "Jane", "lastname": "Doe" },
+        "vehicle": {
+          "color": "Red",
+          "plate": "XYZ123",
+          "capacity": 4,
+          "vehicleType": "Car"
+        }
+      },
+      "token": "JWT_TOKEN"
+    }
+    ```
+- **400 Bad Request**
+  - Validation errors or invalid credentials.
+  - Sample Response:
+    ```json
+    {
+      "message": "Invalid credentials"
+    }
+    ```
+
+## Captain Profile Endpoint Documentation
+
+**Endpoint: GET captain/profile**
+
+### Description
+
+Fetches the profile of the authenticated captain.
+
+### Request Headers
+
+- **Authorization**: Bearer token (required)
+
+### Responses
+
+- **200 OK**
+  - Successful retrieval.
+  - Sample Response:
+    ```json
+    {
+      "Captain": {
+        "fullname": { "firstname": "Jane", "lastname": "Doe" },
+        "email": "jane.doe@example.com"
+      }
+    }
+    ```
+- **401 Unauthorized**
+  - Missing or invalid token.
+  - Sample Response:
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
+
+## Captain Logout Endpoint Documentation
+
+**Endpoint: GET captain/logout**
+
+### Description
+
+Logs out the authenticated captain by clearing the token (cookie removal) and blacklisting the token.
+
+### Request Headers
+
+- **Cookies token** OR
+- **Authorization**: Bearer token (required)
+
+### Responses
+
+- **200 OK**
+  - Successful logout.
+  - Sample Response:
+    ```json
+    {
+      "message": "Logout Successfully"
+    }
+    ```
+- **400 Bad Request**
+  - No token found.
+  - Sample Response:
+    ```json
+    {
+      "message": "No token found"
+    }
+    ```
